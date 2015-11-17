@@ -285,7 +285,10 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciondes de Busqueda"));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
+        jPanel1Layout.columnWidths = new int[] {0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0};
+        jPanel1Layout.rowHeights = new int[] {0};
+        jPanel1.setLayout(jPanel1Layout);
 
         jLabel5.setText("Cliente:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -296,7 +299,7 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
 
         jLabel12.setText("Dni-Ruc:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 66;
+        gridBagConstraints.gridx = 98;
         gridBagConstraints.gridy = 0;
         jPanel1.add(jLabel12, gridBagConstraints);
 
@@ -307,20 +310,20 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 118;
+        gridBagConstraints.gridx = 160;
         gridBagConstraints.gridy = 0;
         jPanel1.add(btnBuscar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 61;
+        gridBagConstraints.gridwidth = 91;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(txtCliente, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 68;
+        gridBagConstraints.gridx = 100;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 41;
+        gridBagConstraints.gridwidth = 53;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtDni, gridBagConstraints);
 
@@ -346,7 +349,7 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButtonDetalleCuotas)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -367,10 +370,10 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
