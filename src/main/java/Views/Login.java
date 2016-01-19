@@ -30,7 +30,7 @@ public class Login extends javax.swing.JFrame{
    
     public Login() {
         initComponents();
-        this.setTitle("Tactical IT S.A.C ");        
+        this.setTitle("Software Sistema De Créditos ");        
         this.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - this.getWidth() / 2,Toolkit.getDefaultToolkit().getScreenSize().height / 2 - this.getHeight() / 2 );       
         JpaUtil.getEntityManager();
         jProgressBar.setVisible(false);

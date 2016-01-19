@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entitys;
 
 import java.io.Serializable;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Gabriel
+ * @author GabrielRD
  */
 @Entity
 @Table(name = "cuota")
@@ -37,7 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cuota.findByFechaVencimiento", query = "SELECT c FROM Cuota c WHERE c.fechaVencimiento = :fechaVencimiento"),
     @NamedQuery(name = "Cuota.findByFechaPago", query = "SELECT c FROM Cuota c WHERE c.fechaPago = :fechaPago"),
     @NamedQuery(name = "Cuota.findByMora", query = "SELECT c FROM Cuota c WHERE c.mora = :mora"),
-    @NamedQuery(name = "Cuota.findByMontoCobrado", query = "SELECT c FROM Cuota c WHERE c.montoCobrado = :montoCobrado")})
+    @NamedQuery(name = "Cuota.findByMontoCobrado", query = "SELECT c FROM Cuota c WHERE c.montoCobrado = :montoCobrado"),
+    @NamedQuery(name = "Cuota.findByEstado", query = "SELECT c FROM Cuota c WHERE c.estado = :estado")})
 public class Cuota implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,7 +52,6 @@ public class Cuota implements Serializable {
     @Column(name = "fecha_vencimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaVencimiento;
-    @Basic(optional = false)
     @Column(name = "fecha_pago")
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
@@ -61,6 +60,8 @@ public class Cuota implements Serializable {
     private Double mora;
     @Column(name = "monto_cobrado")
     private Double montoCobrado;
+    @Column(name = "estado")
+    private String estado;
     @JoinColumn(name = "idCredito", referencedColumnName = "idCredito")
     @ManyToOne(optional = false)
     private Credito idCredito;
@@ -72,11 +73,10 @@ public class Cuota implements Serializable {
         this.idCuota = idCuota;
     }
 
-    public Cuota(Integer idCuota, double monto, Date fechaVencimiento, Date fechaPago) {
+    public Cuota(Integer idCuota, double monto, Date fechaVencimiento) {
         this.idCuota = idCuota;
         this.monto = monto;
         this.fechaVencimiento = fechaVencimiento;
-        this.fechaPago = fechaPago;
     }
 
     public Integer getIdCuota() {
@@ -125,6 +125,14 @@ public class Cuota implements Serializable {
 
     public void setMontoCobrado(Double montoCobrado) {
         this.montoCobrado = montoCobrado;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public Credito getIdCredito() {

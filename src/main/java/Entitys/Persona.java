@@ -6,14 +6,18 @@
 package Entitys;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -24,51 +28,111 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p"),
-    @NamedQuery(name = "Persona.findByNumIdentificacion", query = "SELECT p FROM Persona p WHERE p.numIdentificacion = :numIdentificacion"),
+    @NamedQuery(name = "Persona.findByDni", query = "SELECT p FROM Persona p WHERE p.dni = :dni"),
+    @NamedQuery(name = "Persona.findByRuc", query = "SELECT p FROM Persona p WHERE p.ruc = :ruc"),
+    @NamedQuery(name = "Persona.findByNombres", query = "SELECT p FROM Persona p WHERE p.nombres = :nombres"),
+    @NamedQuery(name = "Persona.findByApellidos", query = "SELECT p FROM Persona p WHERE p.apellidos = :apellidos"),
+    @NamedQuery(name = "Persona.findByDireccion", query = "SELECT p FROM Persona p WHERE p.direccion = :direccion"),
+    @NamedQuery(name = "Persona.findByTelefonoFijo", query = "SELECT p FROM Persona p WHERE p.telefonoFijo = :telefonoFijo"),
     @NamedQuery(name = "Persona.findByCelular1", query = "SELECT p FROM Persona p WHERE p.celular1 = :celular1"),
     @NamedQuery(name = "Persona.findByCelular2", query = "SELECT p FROM Persona p WHERE p.celular2 = :celular2"),
-    @NamedQuery(name = "Persona.findByDireccion", query = "SELECT p FROM Persona p WHERE p.direccion = :direccion"),
-    @NamedQuery(name = "Persona.findByEmail", query = "SELECT p FROM Persona p WHERE p.email = :email"),
-    @NamedQuery(name = "Persona.findByNombre", query = "SELECT p FROM Persona p WHERE p.nombre = :nombre"),
-    @NamedQuery(name = "Persona.findByTelefonoFijo", query = "SELECT p FROM Persona p WHERE p.telefonoFijo = :telefonoFijo"),
-    @NamedQuery(name = "Persona.findByTipoIdentificacion", query = "SELECT p FROM Persona p WHERE p.tipoIdentificacion = :tipoIdentificacion"),
-    @NamedQuery(name = "Persona.findByTipoPersona", query = "SELECT p FROM Persona p WHERE p.tipoPersona = :tipoPersona")})
+    @NamedQuery(name = "Persona.findByEmail", query = "SELECT p FROM Persona p WHERE p.email = :email")})
 public class Persona implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "num_identificacion")
-    private String numIdentificacion;
+    @Column(name = "dni")
+    private String dni;
+    @Column(name = "ruc")
+    private String ruc;
+    @Basic(optional = false)
+    @Column(name = "nombres")
+    private String nombres;
+    @Basic(optional = false)
+    @Column(name = "apellidos")
+    private String apellidos;
+    @Basic(optional = false)
+    @Column(name = "direccion")
+    private String direccion;
+    @Column(name = "telefono_fijo")
+    private String telefonoFijo;
     @Column(name = "celular1")
     private String celular1;
     @Column(name = "celular2")
     private String celular2;
-    @Column(name = "direccion")
-    private String direccion;
     @Column(name = "email")
     private String email;
-    @Column(name = "nombre")
-    private String nombre;
-    @Column(name = "telefono_fijo")
-    private String telefonoFijo;
-    @Column(name = "tipo_identificacion")
-    private String tipoIdentificacion;
-    @Column(name = "tipo_persona")
-    private Character tipoPersona;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idpersona")
+    private List<Detalleempresa> detalleempresaList;
+    @OneToMany(mappedBy = "cliente")
+    private List<Credito> creditoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aval")
+    private List<Credito> creditoList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "colaborador")
+    private List<Credito> creditoList2;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dniRepresentante")
+    private List<Empresa> empresaList;
 
     public Persona() {
     }
 
-    public Persona(String numIdentificacion) {
-        this.numIdentificacion = numIdentificacion;
+    public Persona(String dni) {
+        this.dni = dni;
     }
 
-    public String getNumIdentificacion() {
-        return numIdentificacion;
+    public Persona(String dni, String nombres, String apellidos, String direccion) {
+        this.dni = dni;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
     }
 
-    public void setNumIdentificacion(String numIdentificacion) {
-        this.numIdentificacion = numIdentificacion;
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefonoFijo() {
+        return telefonoFijo;
+    }
+
+    public void setTelefonoFijo(String telefonoFijo) {
+        this.telefonoFijo = telefonoFijo;
     }
 
     public String getCelular1() {
@@ -87,14 +151,6 @@ public class Persona implements Serializable {
         this.celular2 = celular2;
     }
 
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -103,42 +159,55 @@ public class Persona implements Serializable {
         this.email = email;
     }
 
-    public String getNombre() {
-        return nombre;
+    @XmlTransient
+    public List<Detalleempresa> getDetalleempresaList() {
+        return detalleempresaList;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDetalleempresaList(List<Detalleempresa> detalleempresaList) {
+        this.detalleempresaList = detalleempresaList;
     }
 
-    public String getTelefonoFijo() {
-        return telefonoFijo;
+    @XmlTransient
+    public List<Credito> getCreditoList() {
+        return creditoList;
     }
 
-    public void setTelefonoFijo(String telefonoFijo) {
-        this.telefonoFijo = telefonoFijo;
+    public void setCreditoList(List<Credito> creditoList) {
+        this.creditoList = creditoList;
     }
 
-    public String getTipoIdentificacion() {
-        return tipoIdentificacion;
+    @XmlTransient
+    public List<Credito> getCreditoList1() {
+        return creditoList1;
     }
 
-    public void setTipoIdentificacion(String tipoIdentificacion) {
-        this.tipoIdentificacion = tipoIdentificacion;
+    public void setCreditoList1(List<Credito> creditoList1) {
+        this.creditoList1 = creditoList1;
     }
 
-    public Character getTipoPersona() {
-        return tipoPersona;
+    @XmlTransient
+    public List<Credito> getCreditoList2() {
+        return creditoList2;
     }
 
-    public void setTipoPersona(Character tipoPersona) {
-        this.tipoPersona = tipoPersona;
+    public void setCreditoList2(List<Credito> creditoList2) {
+        this.creditoList2 = creditoList2;
+    }
+
+    @XmlTransient
+    public List<Empresa> getEmpresaList() {
+        return empresaList;
+    }
+
+    public void setEmpresaList(List<Empresa> empresaList) {
+        this.empresaList = empresaList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (numIdentificacion != null ? numIdentificacion.hashCode() : 0);
+        hash += (dni != null ? dni.hashCode() : 0);
         return hash;
     }
 
@@ -149,7 +218,7 @@ public class Persona implements Serializable {
             return false;
         }
         Persona other = (Persona) object;
-        if ((this.numIdentificacion == null && other.numIdentificacion != null) || (this.numIdentificacion != null && !this.numIdentificacion.equals(other.numIdentificacion))) {
+        if ((this.dni == null && other.dni != null) || (this.dni != null && !this.dni.equals(other.dni))) {
             return false;
         }
         return true;
@@ -157,7 +226,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Entitys.Persona[ numIdentificacion=" + numIdentificacion + " ]";
+        return "Entitys.Persona[ dni=" + dni + " ]";
     }
     
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Entitys;
 
 import java.io.Serializable;
@@ -20,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Gabriel
+ * @author GabrielRD
  */
 @Entity
 @Table(name = "usuario")

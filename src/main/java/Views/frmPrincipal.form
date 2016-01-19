@@ -44,26 +44,18 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemMantPrestamistas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mantenimiento Prestamistas"/>
+                <Property name="text" type="java.lang.String" value="Mantenimiento Personas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemMantPrestamistasActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemMantProveedores">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemMantEmpresas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mantenimiento Proveedores"/>
+                <Property name="text" type="java.lang.String" value="Mantenimiento Empresas"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemMantProveedoresActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemMantContactos">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Mantenimiento Contactos"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemMantContactosActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemMantEmpresasActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -11,6 +11,10 @@
     <class>Entitys.Cuota</class>
     <class>Entitys.Usuario</class>
     <class>Entitys.Persona</class>
+    <class>Entitys.Empresa</class>
+    <class>Entitys.Formapago</class>
+    <class>Entitys.DetalleEmpresa</class>
+    <class>Entitys.Detalleempresa</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/control_creditos?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="root"/>

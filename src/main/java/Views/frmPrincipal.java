@@ -55,8 +55,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuItemOrdenCompra = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemMantPrestamistas = new javax.swing.JMenuItem();
-        jMenuItemMantProveedores = new javax.swing.JMenuItem();
-        jMenuItemMantContactos = new javax.swing.JMenuItem();
+        jMenuItemMantEmpresas = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItemReporteOC = new javax.swing.JMenuItem();
 
@@ -103,7 +102,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenu3.setMnemonic('M');
         jMenu3.setText("Mantenimientos");
 
-        jMenuItemMantPrestamistas.setText("Mantenimiento Prestamistas");
+        jMenuItemMantPrestamistas.setText("Mantenimiento Personas");
         jMenuItemMantPrestamistas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemMantPrestamistasActionPerformed(evt);
@@ -111,21 +110,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItemMantPrestamistas);
 
-        jMenuItemMantProveedores.setText("Mantenimiento Proveedores");
-        jMenuItemMantProveedores.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemMantEmpresas.setText("Mantenimiento Empresas");
+        jMenuItemMantEmpresas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemMantProveedoresActionPerformed(evt);
+                jMenuItemMantEmpresasActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemMantProveedores);
-
-        jMenuItemMantContactos.setText("Mantenimiento Contactos");
-        jMenuItemMantContactos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemMantContactosActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItemMantContactos);
+        jMenu3.add(jMenuItemMantEmpresas);
 
         jMenuBar1.add(jMenu3);
 
@@ -159,11 +150,12 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void jMenuItemMantPrestamistasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMantPrestamistasActionPerformed
         // TODO add your handling code here:
-        frmMantPrestamista mp = frmMantPrestamista.getInstancia();
-        this.centrarJInternalDialog(mp);        
-        if (!this.jDesktopPane1.isAncestorOf(mp)) {
-            this.jDesktopPane1.add(mp);
-            mp.setVisible(true);
+
+        frmMantPrestamista map = frmMantPrestamista.getInstancia(); 
+        this.centrarJInternalDialog(map);
+        if (!this.jDesktopPane1.isAncestorOf(map)) {
+            this.jDesktopPane1.add(map);
+            map.setVisible(true);
         }
     }//GEN-LAST:event_jMenuItemMantPrestamistasActionPerformed
 
@@ -194,25 +186,15 @@ public class frmPrincipal extends javax.swing.JFrame {
 //        roc.setVisible(true);
     }//GEN-LAST:event_jMenuItemReporteOCActionPerformed
 
-    private void jMenuItemMantProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMantProveedoresActionPerformed
+    private void jMenuItemMantEmpresasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMantEmpresasActionPerformed
         // TODO add your handling code here:
-//        frmMantProveedores mp = frmMantProveedores.getInstancia(); 
-//        this.centrarJInternalDialog(mp);
-//        if (!this.jDesktopPane1.isAncestorOf(mp)) {
-//            this.jDesktopPane1.add(mp);
-//            mp.setVisible(true);
-//        }
-    }//GEN-LAST:event_jMenuItemMantProveedoresActionPerformed
-
-    private void jMenuItemMantContactosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMantContactosActionPerformed
-        // TODO add your handling code here:
-//        frmMantContactos mC = frmMantContactos.getInstancia();
-//        this.centrarJInternalDialog(mC);
-//        if (!this.jDesktopPane1.isAncestorOf(mC)) {
-//            this.jDesktopPane1.add(mC);
-//            mC.setVisible(true);
-//        }
-    }//GEN-LAST:event_jMenuItemMantContactosActionPerformed
+        frmMantEmpresas mp = frmMantEmpresas.getInstancia(); 
+        this.centrarJInternalDialog(mp);
+        if (!this.jDesktopPane1.isAncestorOf(mp)) {
+            this.jDesktopPane1.add(mp);
+            mp.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItemMantEmpresasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -263,9 +245,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItemMantContactos;
+    private javax.swing.JMenuItem jMenuItemMantEmpresas;
     private javax.swing.JMenuItem jMenuItemMantPrestamistas;
-    private javax.swing.JMenuItem jMenuItemMantProveedores;
     private javax.swing.JMenuItem jMenuItemOrdenCompra;
     private javax.swing.JMenuItem jMenuItemReporteOC;
     private javax.swing.JMenuItem jMenuItemSalir;
