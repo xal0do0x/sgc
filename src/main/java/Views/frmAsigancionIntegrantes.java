@@ -34,7 +34,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  */
 public class frmAsigancionIntegrantes extends javax.swing.JDialog {
     
-    private static frmAsignacionIntegrante instancia;
+   
     private List<Detalleempresa> listaPersonasFiltradas = new ArrayList<>();   
     private List<Detalleempresa> listaPersonasDetallexempresa = new ArrayList<>(); 
     private List<Detalleempresa> listaPersonasDetalleBackup = new ArrayList<>(); 
