@@ -62,7 +62,7 @@ public class Cuota implements Serializable {
     private Double montoCobrado;
     @Column(name = "estado")
     private String estado;
-    @JoinColumn(name = "idCredito", referencedColumnName = "idCredito")
+    @JoinColumn(name = "id_Credito", referencedColumnName = "idCredito")
     @ManyToOne(optional = false)
     private Credito idCredito;
 

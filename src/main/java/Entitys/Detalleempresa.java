@@ -36,12 +36,12 @@ public class Detalleempresa implements Serializable {
     @Basic(optional = false)
     @Column(name = "idDetalleEmpresa")
     private Integer idDetalleEmpresa;
-    @JoinColumn(name = "idEmpresa", referencedColumnName = "idEmpresa")
+    @JoinColumn(name = "id_Empresa", referencedColumnName = "idEmpresa")
     @ManyToOne(optional = false)
     private Empresa idEmpresa;
-    @JoinColumn(name = "idpersona", referencedColumnName = "dni")
+    @JoinColumn(name = "id_persona", referencedColumnName = "dni")
     @ManyToOne(optional = false)
-    private Persona idpersona;
+    private Persona idPersona;
 
     public Detalleempresa() {
     }
@@ -66,12 +66,12 @@ public class Detalleempresa implements Serializable {
         this.idEmpresa = idEmpresa;
     }
 
-    public Persona getIdpersona() {
-        return idpersona;
+    public Persona getIdPersona() {
+        return idPersona;
     }
 
-    public void setIdpersona(Persona idpersona) {
-        this.idpersona = idpersona;
+    public void setIdPersona(Persona idPersona) {
+        this.idPersona = idPersona;
     }
 
     @Override

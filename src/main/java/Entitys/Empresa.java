@@ -54,7 +54,7 @@ public class Empresa implements Serializable {
     private String direccion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpresa")
     private List<Detalleempresa> detalleempresaList;
-    @OneToMany(mappedBy = "bancoVecinal")
+    @OneToMany(mappedBy = "idEmpresa")
     private List<Credito> creditoList;
     @JoinColumn(name = "dniRepresentante", referencedColumnName = "dni")
     @ManyToOne(optional = false)

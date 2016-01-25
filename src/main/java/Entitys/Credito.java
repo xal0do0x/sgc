@@ -70,15 +70,15 @@ public class Credito implements Serializable {
     private Date fechaFinal;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCredito")
     private List<Cuota> cuotaList;
-    @JoinColumn(name = "banco_vecinal", referencedColumnName = "idEmpresa")
+    @JoinColumn(name = "id_empresa", referencedColumnName = "idEmpresa")
     @ManyToOne
-    private Empresa bancoVecinal;
-    @JoinColumn(name = "idFormaPago", referencedColumnName = "idFormaPago")
+    private Empresa idEmpresa;
+    @JoinColumn(name = "id_FormaPago", referencedColumnName = "idFormaPago")
     @ManyToOne(optional = false)
     private Formapago idFormaPago;
-    @JoinColumn(name = "cliente", referencedColumnName = "dni")
+    @JoinColumn(name = "id_persona", referencedColumnName = "dni")
     @ManyToOne
-    private Persona cliente;
+    private Persona idPersona;
     @JoinColumn(name = "aval", referencedColumnName = "dni")
     @ManyToOne(optional = false)
     private Persona aval;
@@ -167,12 +167,12 @@ public class Credito implements Serializable {
         this.cuotaList = cuotaList;
     }
 
-    public Empresa getBancoVecinal() {
-        return bancoVecinal;
+    public Empresa getIdEmpresa() {
+        return idEmpresa;
     }
 
-    public void setBancoVecinal(Empresa bancoVecinal) {
-        this.bancoVecinal = bancoVecinal;
+    public void setIdEmpresa(Empresa idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 
     public Formapago getIdFormaPago() {
@@ -183,12 +183,12 @@ public class Credito implements Serializable {
         this.idFormaPago = idFormaPago;
     }
 
-    public Persona getCliente() {
-        return cliente;
+    public Persona getIdPersona() {
+        return idPersona;
     }
 
-    public void setCliente(Persona cliente) {
-        this.cliente = cliente;
+    public void setIdPersona(Persona idPersona) {
+        this.idPersona = idPersona;
     }
 
     public Persona getAval() {
