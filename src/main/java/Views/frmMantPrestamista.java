@@ -526,7 +526,7 @@ public class frmMantPrestamista extends javax.swing.JInternalFrame {
         BeanProperty bNombres = BeanProperty.create("nombres");    
         BeanProperty bApellidos = BeanProperty.create("apellidos"); 
         BeanProperty bNum_identificacion = BeanProperty.create("dni");
-        BeanProperty bTelefono = BeanProperty.create("telefono_fijo");
+        BeanProperty bTelefono = BeanProperty.create("telefonoFijo");
         BeanProperty bCelular = BeanProperty.create("celular1");
         
         binding.addColumnBinding(bNombres).setColumnName("NOMBRES").setEditable(false);  
