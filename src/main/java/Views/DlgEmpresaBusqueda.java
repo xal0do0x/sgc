@@ -6,7 +6,9 @@
 
 package Views;
 
+import Controllers.EmpresaJpaController;
 import Controllers.PersonaJpaController;
+import Entitys.Empresa;
 import Entitys.Persona;
 import Views.Settings.TableColumnAdjuster;
 import java.awt.Component;
@@ -24,19 +26,19 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Gabriel
  */
-public class DlgPersonaBusqueda extends javax.swing.JDialog {
+public class DlgEmpresaBusqueda extends javax.swing.JDialog {
     
-     List<Persona> listaPersonas;
+     List<Empresa> listaEmpresa;
      private final JInternalFrame padre;
      Component formulariopadre;
     /**
      * Creates new form DlgProveedorBusqueda
      * @param componente
      */
-    public DlgPersonaBusqueda(Component componente) {
+    public DlgEmpresaBusqueda(Component componente) {
         super(JOptionPane.getFrameForComponent(componente), true);
-        initComponents();
         padre = (JInternalFrame) componente;
+        initComponents();
         this.formulariopadre = componente;
         this.setLocationRelativeTo(componente);
         this.presentarDatos();
@@ -53,9 +55,9 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
-        txtPersona = new javax.swing.JTextField();
+        txtEmpresa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTablePersonas = new javax.swing.JTable();
+        jTableEmpresas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -68,7 +70,7 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
             }
         });
 
-        jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
+        jTableEmpresas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -79,12 +81,12 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTablePersonas.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTableEmpresas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTablePersonasMouseReleased(evt);
+                jTableEmpresasMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(jTablePersonas);
+        jScrollPane1.setViewportView(jTableEmpresas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,7 +99,7 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPersona)
+                        .addComponent(txtEmpresa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscar)))
                 .addContainerGap())
@@ -110,7 +112,7 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
                     .addComponent(btnBuscar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(txtPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -119,32 +121,29 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTablePersonasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePersonasMouseReleased
+    private void jTableEmpresasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEmpresasMouseReleased
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
-//            frmMantEmpresas fme = (frmMantEmpresas) this.formulariopadre;
-//            fme.persona = listaPersonas.get(jTablePersonas.getSelectedRow());            
-//            this.dispose();
             if(this.padre instanceof frmMantEmpresas){
-                ((frmMantEmpresas) padre).persona = listaPersonas.get(jTablePersonas.getSelectedRow());
-                listaPersonas.remove(jTablePersonas.getSelectedRow());
+                ((frmMantEmpresas) padre).empresa = listaEmpresa.get(jTableEmpresas.getSelectedRow());
+                listaEmpresa.remove(jTableEmpresas.getSelectedRow());
                 this.dispose();
             }else if(this.padre instanceof frmMantCreditoPersonas){
-                ((frmMantCreditoPersonas) padre).persona = listaPersonas.get(jTablePersonas.getSelectedRow());
-                listaPersonas.remove(jTablePersonas.getSelectedRow());
+                ((frmMantCreditoPersonas) padre).empresa = listaEmpresa.get(jTableEmpresas.getSelectedRow());
+                listaEmpresa.remove(jTableEmpresas.getSelectedRow());
                 this.dispose();
             }else{
                 this.dispose();
-            }
+            }        
         }
-    }//GEN-LAST:event_jTablePersonasMouseReleased
+    }//GEN-LAST:event_jTableEmpresasMouseReleased
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-          if (!txtPersona.getText().equals("")) {
-            listaPersonas.clear();
-            List<Persona> lista = controladorPersona.buscarXPatron(txtPersona.getText());
-            for(Persona lista1 : lista){listaPersonas.add(lista1);}           
+          if (!txtEmpresa.getText().equals("")) {
+            listaEmpresa.clear();
+            List<Empresa> lista = controladorEmpresa.buscarXPatron(txtEmpresa.getText());
+            for(Empresa lista1 : lista){listaEmpresa.add(lista1);}           
         } else {
             this.presentarDatos();
         } 
@@ -196,30 +195,29 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTablePersonas;
-    private javax.swing.JTextField txtPersona;
+    private javax.swing.JTable jTableEmpresas;
+    private javax.swing.JTextField txtEmpresa;
     // End of variables declaration//GEN-END:variables
-    PersonaJpaController controladorPersona = new PersonaJpaController();
-    
+    EmpresaJpaController controladorEmpresa = new EmpresaJpaController();
     public void presentarDatos() {
-        listaPersonas = controladorPersona.buscarTodos();
-        listaPersonas = ObservableCollections.observableList(listaPersonas);
-        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, listaPersonas, jTablePersonas);
-        BeanProperty bNombres = BeanProperty.create("nombres");    
-        BeanProperty bApellidos = BeanProperty.create("apellidos"); 
-        BeanProperty bNum_identificacion = BeanProperty.create("dni");       
+        listaEmpresa = controladorEmpresa.buscarTodos();
+        listaEmpresa = ObservableCollections.observableList(listaEmpresa);
+        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, listaEmpresa, jTableEmpresas);
+        BeanProperty bNombre = BeanProperty.create("nombre");    
+        BeanProperty bDireccion = BeanProperty.create("direccion"); 
+        BeanProperty bRuc = BeanProperty.create("ruc");       
         
-        binding.addColumnBinding(bNombres).setColumnName("NOMBRES").setEditable(false);  
-        binding.addColumnBinding(bApellidos).setColumnName("APELLIDOS").setEditable(false);
-        binding.addColumnBinding(bNum_identificacion).setColumnName("DNI").setEditable(false);
+        binding.addColumnBinding(bNombre).setColumnName("NOMBRE").setEditable(false);  
+        binding.addColumnBinding(bDireccion).setColumnName("DIRECCION").setEditable(false);
+        binding.addColumnBinding(bRuc).setColumnName("RUC").setEditable(false);
         
         binding.bind();
         this.setAnchoColumnas();    
     }  
     
     public void setAnchoColumnas(){        
-        jTablePersonas.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TableColumnAdjuster tca = new TableColumnAdjuster(jTablePersonas);
+        jTableEmpresas.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TableColumnAdjuster tca = new TableColumnAdjuster(jTableEmpresas);
         tca.adjustColumns();        
     } 
 }

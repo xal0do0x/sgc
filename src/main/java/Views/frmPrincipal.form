@@ -22,16 +22,15 @@
         <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
             <Property name="mnemonic" type="int" value="65"/>
-            <Property name="text" type="java.lang.String" value="Adquisiciones"/>
+            <Property name="text" type="java.lang.String" value="Creditos"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemOrdenCompra">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
-                <Property name="mnemonic" type="int" value="71"/>
-                <Property name="text" type="java.lang.String" value="Generar Orden de Compra"/>
+                <Property name="text" type="java.lang.String" value="Generar cr&#xe9;dito"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemOrdenCompraActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -52,7 +52,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItemSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItemOrdenCompra = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemMantPrestamistas = new javax.swing.JMenuItem();
         jMenuItemMantEmpresas = new javax.swing.JMenuItem();
@@ -86,16 +86,15 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setMnemonic('A');
-        jMenu2.setText("Adquisiciones");
+        jMenu2.setText("Creditos");
 
-        jMenuItemOrdenCompra.setMnemonic('G');
-        jMenuItemOrdenCompra.setText("Generar Orden de Compra");
-        jMenuItemOrdenCompra.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Generar crédito");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemOrdenCompraActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemOrdenCompra);
+        jMenu2.add(jMenuItem1);
 
         jMenuBar1.add(jMenu2);
 
@@ -169,16 +168,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
-    private void jMenuItemOrdenCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOrdenCompraActionPerformed
-        // TODO add your handling code here:       
-//        frmRegistroOrdenCompra roc = frmRegistroOrdenCompra.getInstancia();
-//       this.centrarJInternalDialog(roc);        
-//        if (!this.jDesktopPane1.isAncestorOf(roc)) {
-//            this.jDesktopPane1.add(roc);
-//            roc.setVisible(true);
-//        }
-    }//GEN-LAST:event_jMenuItemOrdenCompraActionPerformed
-
     private void jMenuItemReporteOCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemReporteOCActionPerformed
         // TODO add your handling code here:
 //        frmReportesOrdenesC roc = frmReportesOrdenesC.getInstancia();
@@ -195,6 +184,16 @@ public class frmPrincipal extends javax.swing.JFrame {
             mp.setVisible(true);
         }
     }//GEN-LAST:event_jMenuItemMantEmpresasActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        frmMantCreditoPersonas frmCredito = new frmMantCreditoPersonas();
+        this.centrarJInternalDialog(frmCredito);
+        if (!this.jDesktopPane1.isAncestorOf(frmCredito)) {
+            this.jDesktopPane1.add(frmCredito);
+            frmCredito.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -245,9 +244,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemMantEmpresas;
     private javax.swing.JMenuItem jMenuItemMantPrestamistas;
-    private javax.swing.JMenuItem jMenuItemOrdenCompra;
     private javax.swing.JMenuItem jMenuItemReporteOC;
     private javax.swing.JMenuItem jMenuItemSalir;
     // End of variables declaration//GEN-END:variables

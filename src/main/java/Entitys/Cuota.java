@@ -29,15 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "cuota")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Cuota.findAll", query = "SELECT c FROM Cuota c"),
-    @NamedQuery(name = "Cuota.findByIdCuota", query = "SELECT c FROM Cuota c WHERE c.idCuota = :idCuota"),
-    @NamedQuery(name = "Cuota.findByMonto", query = "SELECT c FROM Cuota c WHERE c.monto = :monto"),
-    @NamedQuery(name = "Cuota.findByFechaVencimiento", query = "SELECT c FROM Cuota c WHERE c.fechaVencimiento = :fechaVencimiento"),
-    @NamedQuery(name = "Cuota.findByFechaPago", query = "SELECT c FROM Cuota c WHERE c.fechaPago = :fechaPago"),
-    @NamedQuery(name = "Cuota.findByMora", query = "SELECT c FROM Cuota c WHERE c.mora = :mora"),
-    @NamedQuery(name = "Cuota.findByMontoCobrado", query = "SELECT c FROM Cuota c WHERE c.montoCobrado = :montoCobrado"),
-    @NamedQuery(name = "Cuota.findByEstado", query = "SELECT c FROM Cuota c WHERE c.estado = :estado")})
+
 public class Cuota implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,7 +54,7 @@ public class Cuota implements Serializable {
     private Double montoCobrado;
     @Column(name = "estado")
     private String estado;
-    @JoinColumn(name = "id_Credito", referencedColumnName = "idCredito")
+    @JoinColumn(name = "idCredito", referencedColumnName = "idCredito")
     @ManyToOne(optional = false)
     private Credito idCredito;
 

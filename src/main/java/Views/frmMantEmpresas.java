@@ -29,7 +29,8 @@ public class frmMantEmpresas extends javax.swing.JInternalFrame {
     private static frmMantEmpresas instancia; 
     List<Empresa> listaEmpresas; 
     private int accion; 
-    Persona persona; 
+    Persona persona;
+    Empresa empresa;
     String Estado;
     Empresa datosAsignacion;
 
@@ -222,6 +223,7 @@ public class frmMantEmpresas extends javax.swing.JInternalFrame {
 
         jButtonRepresentante.setBackground(new java.awt.Color(255, 0, 0));
         jButtonRepresentante.setForeground(new java.awt.Color(255, 0, 0));
+        jButtonRepresentante.setText("+");
         jButtonRepresentante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRepresentanteActionPerformed(evt);

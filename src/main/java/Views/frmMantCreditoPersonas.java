@@ -5,17 +5,61 @@
  */
 package Views;
 
+import Controllers.Controlador;
+import Controllers.CreditoJpaController;
+import Controllers.CuotaJpaController;
+import Controllers.FormaPagoJpaController;
+import Entitys.Credito;
+import Entitys.Cuota;
+import Entitys.Empresa;
+import Entitys.Formapago;
+import Entitys.Persona;
+import Models.MTCredito;
+import Views.Settings.ClaseUtil;
+import com.personal.utiles.FormularioUtil;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JComboBoxBinding;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
+
 /**
  *
  * @author GabrielRD
  */
 public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form frmMantCreditoPersonas
-     */
+    private static frmMantCreditoPersonas instancia;
+    List<Credito> listaCreditos;
+    List<Formapago> listaFormaPago;
+    private int accion;
+    Persona persona;
+    Empresa empresa;
+    Persona colaborador;
+    Persona aval;
+    String estado;
+    Double monto;
+    int tiempo;
+    double tasa;
+    Date fechaInicio;
+    Date fechaFin;
+    
     public frmMantCreditoPersonas() {
         initComponents();
+        this.presentarDatos();
+        ClaseUtil.activarComponente(jPanelDatos, false);
+        ClaseUtil.activarComponente(jPanelTabla, true);
+        ClaseUtil.activarComponente(jPanelAcciones, false);
     }
 
     /**
@@ -37,20 +81,22 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         txtAval = new javax.swing.JTextField();
         txtMonto = new javax.swing.JTextField();
         txtTasa = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtTiempo = new javax.swing.JTextField();
+        lblCuotas = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jComboBoxTipo = new javax.swing.JComboBox();
+        cboFormaPago = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
-        txtTipoCliente = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnColaborador = new javax.swing.JButton();
+        btnAval = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jDateFechaVencimiento = new com.toedter.calendar.JDateChooser();
-        jDateFechaInicio = new com.toedter.calendar.JDateChooser();
+        dcFechaFin = new com.toedter.calendar.JDateChooser();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser();
+        cboTipoCliente = new javax.swing.JComboBox();
+        jLabel13 = new javax.swing.JLabel();
+        txtClienteEmpresa = new javax.swing.JTextField();
+        btnClienteEmpresa = new javax.swing.JButton();
+        spTiempo = new javax.swing.JSpinner();
         jPanelOpciones = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
@@ -63,96 +109,90 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         btnBuscar = new javax.swing.JButton();
         txtCliente = new javax.swing.JTextField();
         txtDni = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
+        jPanelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableCreditos = new javax.swing.JTable();
-        jButtonDetalleCuotas = new javax.swing.JButton();
+        btnDetallesCuotas = new javax.swing.JButton();
+
+        setClosable(true);
 
         jPanelDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Prestamista"));
         java.awt.GridBagLayout jPanelDatosLayout1 = new java.awt.GridBagLayout();
-        jPanelDatosLayout1.columnWidths = new int[] {0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0};
-        jPanelDatosLayout1.rowHeights = new int[] {0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0};
+        jPanelDatosLayout1.columnWidths = new int[] {0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0};
+        jPanelDatosLayout1.rowHeights = new int[] {0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0, 11, 0};
         jPanelDatos.setLayout(jPanelDatosLayout1);
 
         jLabel3.setText("Colaborador:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanelDatos.add(jLabel3, gridBagConstraints);
 
         jLabel6.setText("Aval:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanelDatos.add(jLabel6, gridBagConstraints);
 
         jLabel7.setText("Monto:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanelDatos.add(jLabel7, gridBagConstraints);
 
         jLabel8.setText("Forma Pago:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanelDatos.add(jLabel8, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 61;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanelDatos.add(txtColaborador, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 61;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanelDatos.add(txtAval, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.gridwidth = 37;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanelDatos.add(txtMonto, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 28;
         gridBagConstraints.gridwidth = 37;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanelDatos.add(txtTasa, gridBagConstraints);
 
-        jLabel9.setText("Tiempo:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanelDatos.add(jLabel9, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 20;
-        gridBagConstraints.gridwidth = 37;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanelDatos.add(txtTiempo, gridBagConstraints);
-
-        jLabel10.setText("Tasa:");
+        lblCuotas.setText("Cuotas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 24;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanelDatos.add(jLabel10, gridBagConstraints);
+        jPanelDatos.add(lblCuotas, gridBagConstraints);
 
-        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "MENSUAL", "QUINCENAL", "SEMANAL ", "DIARIO" }));
+        jLabel10.setText("Tasa:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 28;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanelDatos.add(jLabel10, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 20;
         gridBagConstraints.gridwidth = 37;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanelDatos.add(jComboBoxTipo, gridBagConstraints);
+        jPanelDatos.add(cboFormaPago, gridBagConstraints);
 
         jLabel11.setText("Tipo Cliente:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -160,54 +200,101 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanelDatos.add(jLabel11, gridBagConstraints);
+
+        btnColaborador.setText("+");
+        btnColaborador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColaboradorActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 61;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanelDatos.add(txtTipoCliente, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 68;
-        gridBagConstraints.gridy = 0;
-        jPanelDatos.add(jButton1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 68;
-        gridBagConstraints.gridy = 4;
-        jPanelDatos.add(jButton2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 68;
+        gridBagConstraints.gridx = 76;
         gridBagConstraints.gridy = 8;
-        jPanelDatos.add(jButton3, gridBagConstraints);
+        jPanelDatos.add(btnColaborador, gridBagConstraints);
+
+        btnAval.setText("+");
+        btnAval.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvalActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 76;
+        gridBagConstraints.gridy = 12;
+        jPanelDatos.add(btnAval, gridBagConstraints);
 
         jLabel1.setText("%");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 42;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridx = 50;
+        gridBagConstraints.gridy = 28;
         jPanelDatos.add(jLabel1, gridBagConstraints);
 
         jLabel2.setText("Fecha Inicio:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridy = 32;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanelDatos.add(jLabel2, gridBagConstraints);
 
         jLabel4.setText("Fecha Venc:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 42;
-        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridx = 50;
+        gridBagConstraints.gridy = 32;
         jPanelDatos.add(jLabel4, gridBagConstraints);
+
+        dcFechaFin.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 44;
-        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridx = 52;
+        gridBagConstraints.gridy = 32;
         gridBagConstraints.gridwidth = 29;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanelDatos.add(jDateFechaVencimiento, gridBagConstraints);
+        jPanelDatos.add(dcFechaFin, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 32;
         gridBagConstraints.gridwidth = 37;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanelDatos.add(jDateFechaInicio, gridBagConstraints);
+        jPanelDatos.add(dcFechaInicio, gridBagConstraints);
+
+        cboTipoCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PERSONA NATURAL", "PERSONA JURIDICA" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 35;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanelDatos.add(cboTipoCliente, gridBagConstraints);
+
+        jLabel13.setText("Cliente/Empresa:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanelDatos.add(jLabel13, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 61;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanelDatos.add(txtClienteEmpresa, gridBagConstraints);
+
+        btnClienteEmpresa.setText("+");
+        btnClienteEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteEmpresaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 76;
+        gridBagConstraints.gridy = 4;
+        jPanelDatos.add(btnClienteEmpresa, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanelDatos.add(spTiempo, gridBagConstraints);
 
         jPanelOpciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
@@ -241,7 +328,7 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
             .addGroup(jPanelOpcionesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnNuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnModificar)
                 .addGap(19, 19, 19))
         );
@@ -268,7 +355,7 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         jPanelAccionesLayout.setHorizontalGroup(
             jPanelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAccionesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(btnGuardar)
                 .addGap(29, 29, 29)
                 .addComponent(btnCancelar)
@@ -327,40 +414,45 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtDni, gridBagConstraints);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista Créditos"));
+        jPanelTabla.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista Créditos"));
 
         jTableCreditos.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jTableCreditos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null}
+                {}
             },
             new String [] {
-                "Cliente", "Monto", "Form Pago", "Fecha Inicio", "Fecha Venc.", "Alerta"
+
             }
         ));
         jScrollPane1.setViewportView(jTableCreditos);
 
-        jButtonDetalleCuotas.setText("Ver Detalle Cuotas");
+        btnDetallesCuotas.setText("Ver Detalle Cuotas");
+        btnDetallesCuotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetallesCuotasActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelTablaLayout = new javax.swing.GroupLayout(jPanelTabla);
+        jPanelTabla.setLayout(jPanelTablaLayout);
+        jPanelTablaLayout.setHorizontalGroup(
+            jPanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTablaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButtonDetalleCuotas)
+                    .addGroup(jPanelTablaLayout.createSequentialGroup()
+                        .addComponent(btnDetallesCuotas)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        jPanelTablaLayout.setVerticalGroup(
+            jPanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTablaLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jButtonDetalleCuotas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addComponent(btnDetallesCuotas)
                 .addContainerGap())
         );
 
@@ -371,15 +463,16 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
-                        .addComponent(jPanelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 117, Short.MAX_VALUE))
+                    .addComponent(jPanelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -388,20 +481,17 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanelOpciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanelAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(jPanelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(jPanelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(11, 11, 11))
+                        .addComponent(jPanelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(11, 11, 11))))
         );
 
         pack();
@@ -411,99 +501,203 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         this.accion = Controlador.NUEVO;
         this.activarComponents();
-        txtidentificacion.requestFocusInWindow();
-        this.controladorPersona.prepararCrear();
+        cboTipoCliente.requestFocusInWindow();
+        this.controladorCredito.prepararCrear();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        int fila = jTablePersonaN.getSelectedRow();
-        if (fila != -1) {
-            this.accion = Controlador.MODIFICAR;
-            this.activarComponents();
-            controladorPersona.setSeleccionado(this.listaPersonas.get(fila));
-
-            jComboBoxIdentificacion.setSelectedItem(controladorPersona.getSeleccionado().getTipoIdentificacion());
-            txtidentificacion.setText(controladorPersona.getSeleccionado().getNumIdentificacion());
-            txtColaborador.setText(controladorPersona.getSeleccionado().getNombre());
-            txtAval.setText(controladorPersona.getSeleccionado().getTelefonoFijo());
-            txtMonto.setText(controladorPersona.getSeleccionado().getCelular1());
-            txtTasa.setText(controladorPersona.getSeleccionado().getCelular2());
-            txtTiempo.setText(controladorPersona.getSeleccionado().getDireccion());
-            jComboBoxTipo.setSelectedIndex(getTipoCliente(controladorPersona.getSeleccionado().getTipoPersona().toString()));
-        }
+//        int fila = jTablePersonaN.getSelectedRow();
+//        if (fila != -1) {
+//            this.accion = Controlador.MODIFICAR;
+//            this.activarComponents();
+//            controladorPersona.setSeleccionado(this.listaPersonas.get(fila));
+//
+//            jComboBoxIdentificacion.setSelectedItem(controladorPersona.getSeleccionado().getTipoIdentificacion());
+//            txtidentificacion.setText(controladorPersona.getSeleccionado().getNumIdentificacion());
+//            txtColaborador.setText(controladorPersona.getSeleccionado().getNombre());
+//            txtAval.setText(controladorPersona.getSeleccionado().getTelefonoFijo());
+//            txtMonto.setText(controladorPersona.getSeleccionado().getCelular1());
+//            txtTasa.setText(controladorPersona.getSeleccionado().getCelular2());
+//            txtTiempo.setText(controladorPersona.getSeleccionado().getDireccion());
+//            jComboBoxTipo.setSelectedIndex(getTipoCliente(controladorPersona.getSeleccionado().getTipoPersona().toString()));
+//        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if (txtColaborador.getText().equals("") || txtidentificacion.getText().equals("") || jComboBoxIdentificacion.getSelectedIndex()==0 || jComboBoxTipo.getSelectedIndex()==0 || txtTiempo.getText().equals("")) {
-            ClaseUtil.mensajeExito(this,4);
-        } else {
-            controladorPersona.getSeleccionado().setTipoIdentificacion(jComboBoxIdentificacion.getSelectedItem().toString());
-            controladorPersona.getSeleccionado().setNumIdentificacion(txtidentificacion.getText().trim().toUpperCase());
-            controladorPersona.getSeleccionado().setNombre(txtColaborador.getText().trim().toUpperCase());
-            controladorPersona.getSeleccionado().setTelefonoFijo(txtAval.getText().trim().toUpperCase());
-            controladorPersona.getSeleccionado().setCelular1(txtMonto.getText().trim().toUpperCase());
-            controladorPersona.getSeleccionado().setCelular2(txtTasa.getText().toUpperCase());
-            controladorPersona.getSeleccionado().setDireccion(txtTiempo.getText().trim().toUpperCase());
-            controladorPersona.getSeleccionado().setTipoPersona(setTipoCliente().charAt(0));
-
+        if(erroresFormulario()){
+            return;
+        }
+        if(FormularioUtil.dialogoConfirmar(this, accion)){
+            Credito seleccionado = controladorCredito.getSeleccionado();
+            
+            //Cliente/empresa
+            if(cboTipoCliente.getSelectedItem().toString().equals("PERSONA NATURAL")){
+                seleccionado.setIdPersona(persona);
+                seleccionado.setTipoCliente("PN");
+            }else  if(cboTipoCliente.getSelectedItem().toString().equals("PERSONA JURIDICA")){
+                seleccionado.setIdEmpresa(empresa);
+                seleccionado.setTipoCliente("PJ");
+            }
+            
+            //Datos sobre credito
+            seleccionado.setColaborador(colaborador);
+            seleccionado.setAval(aval);
+            seleccionado.setMonto(Double.parseDouble(txtMonto.getText()));
+            seleccionado.setTiempo((int)spTiempo.getValue());
+            seleccionado.setTasa(Double.parseDouble(txtTasa.getText()));
+            seleccionado.setFechaInicio(dcFechaInicio.getDate());
+            
+            //Calculo de monto a pagar 
+            double interesTotal = seleccionado.getMonto()*seleccionado.getTiempo()*(seleccionado.getTasa()/100);
+            double montoCuota = (seleccionado.getMonto()/seleccionado.getTiempo())+(interesTotal/seleccionado.getTiempo());
+            
+            //Definir tiempo entre fechas
+            int tiempoEntreFechas = 0;
+            Formapago fp = (Formapago) cboFormaPago.getSelectedItem();
+            switch(fp.getDescripcion()){
+                case "MENSUAL":
+                    tiempoEntreFechas = 0;
+                    break;
+                case "QUINCENAL":
+                    tiempoEntreFechas = 1;
+                    break;
+                case "SEMANAL":
+                    tiempoEntreFechas = 2;
+                    break;
+            }
+            //Crear cuotas
+            List<Cuota> listaCuotas = new ArrayList<>();
+            Date fechaInicial = dcFechaInicio.getDate();
+            Calendar c = Calendar.getInstance();
+            
+            for(int i=0;i<seleccionado.getTiempo();i++){
+                Cuota cuota = new Cuota();
+                cuota.setMonto(montoCuota);
+                cuota.setFechaVencimiento(fechaInicial);
+                cuota.setIdCredito(seleccionado);
+                listaCuotas.add(cuota);
+                if((seleccionado.getTiempo()-1)!=i){
+                    if(tiempoEntreFechas==0){
+                        c.setTime(fechaInicial);
+                        c.add(Calendar.MONTH,1);
+                        fechaInicial = c.getTime();
+                    }else if(tiempoEntreFechas==1){
+                        c.setTime(fechaInicial);
+                        c.add(Calendar.WEEK_OF_YEAR,2);
+                        fechaInicial = c.getTime();
+                    }else if(tiempoEntreFechas==2){
+                        c.setTime(fechaInicial);
+                        c.add(Calendar.WEEK_OF_YEAR,1);
+                        fechaInicial = c.getTime();
+                    }
+                }   
+            }
+            System.out.println("Fechainicio: "+dcFechaInicio.getDate().toString()+" Fecha Fin: "+fechaInicial.toString());
+            System.out.println("Monto a pagar mensual: "+montoCuota);
+            
+            seleccionado.setIdFormaPago((Formapago)cboFormaPago.getSelectedItem());
+            seleccionado.setFechaFinal(fechaInicial);
+            seleccionado.setCuotaList(listaCuotas);
+            
             if (this.accion == Controlador.NUEVO) {
                 if (ClaseUtil.dialogoConfirmar(this, this.accion)) {
-                    controladorPersona.accion(this.accion);
+                    controladorCredito.accion(this.accion);
                     ClaseUtil.mensajeExito(this, accion);
                 }
             }else if(this.accion == Controlador.MODIFICAR){
                 if (ClaseUtil.dialogoConfirmar(this, this.accion)) {
-                    controladorPersona.accion(this.accion);
+                    controladorCredito.accion(this.accion);
                     ClaseUtil.mensajeExito(this, accion);
                 }
             }
+            
             this.presentarDatos();
             this.accion = 0;
             this.activarComponents();
             ClaseUtil.limpiarComponente(jPanelDatos);
-        }
+            
+        }  
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        this.accion = 0;
-        this.activarComponents();
-        ClaseUtil.limpiarComponente(jPanelDatos);
+//        this.accion = 0;
+//        this.activarComponents();
+//        ClaseUtil.limpiarComponente(jPanelDatos);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        if (!txtCliente.getText().equals("")) {
-            listaPersonas.clear();
-            listaPersonas.addAll(controladorPersona.buscarXPatron(txtCliente.getText().trim()));
-        }else if(!txtDni.getText().equals("")){
-            listaPersonas.clear();
-            listaPersonas.addAll(controladorPersona.buscarXPatron(txtDni.getText().trim()));
-        }else{
-            this.presentarDatos();
-        }
+//        if (!txtCliente.getText().equals("")) {
+//            listaPersonas.clear();
+//            listaPersonas.addAll(controladorPersona.buscarXPatron(txtCliente.getText().trim()));
+//        }else if(!txtDni.getText().equals("")){
+//            listaPersonas.clear();
+//            listaPersonas.addAll(controladorPersona.buscarXPatron(txtDni.getText().trim()));
+//        }else{
+//            this.presentarDatos();
+//        }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnDetallesCuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesCuotasActionPerformed
+        // TODO add your handling code here:
+        int fila = jTableCreditos.getSelectedRow();
+        if(fila!=-1){
+            
+        }
+    }//GEN-LAST:event_btnDetallesCuotasActionPerformed
+
+    private void btnClienteEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteEmpresaActionPerformed
+        // TODO add your handling code here:
+        if("PERSONA NATURAL".equals(cboTipoCliente.getSelectedItem().toString())){
+            System.out.println("Llego aca a persona natural");
+            DlgPersonaBusqueda dlgPersona = new DlgPersonaBusqueda(this);
+            dlgPersona.setVisible(true);
+            txtClienteEmpresa.setText(persona.getNombres()+" "+persona.getApellidos());
+        }else if("PERSONA JURIDICA".equals(cboTipoCliente.getSelectedItem().toString())){
+            System.out.println("Llego aca a persona juridica");
+            DlgEmpresaBusqueda dlgEmpresa = new DlgEmpresaBusqueda(this);
+            dlgEmpresa.setVisible(true);
+            txtClienteEmpresa.setText(empresa.getNombre()+" - "+empresa.getRuc());
+        }
+    }//GEN-LAST:event_btnClienteEmpresaActionPerformed
+
+    private void btnColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColaboradorActionPerformed
+        // TODO add your handling code here:
+        DlgColaboradorBusqueda dlgPersona = new DlgColaboradorBusqueda(this);
+        dlgPersona.setVisible(true);
+        txtColaborador.setText(colaborador.getNombres()+" "+colaborador.getApellidos());
+    }//GEN-LAST:event_btnColaboradorActionPerformed
+
+    private void btnAvalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvalActionPerformed
+        // TODO add your handling code here:
+        DlgAvalBusqueda dlgPersona = new DlgAvalBusqueda(this);
+        dlgPersona.setVisible(true);
+        txtAval.setText(aval.getNombres()+" "+aval.getApellidos());
+    }//GEN-LAST:event_btnAvalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAval;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnClienteEmpresa;
+    private javax.swing.JButton btnColaborador;
+    private javax.swing.JButton btnDetallesCuotas;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButtonDetalleCuotas;
-    private javax.swing.JComboBox jComboBoxTipo;
-    private com.toedter.calendar.JDateChooser jDateFechaInicio;
-    private com.toedter.calendar.JDateChooser jDateFechaVencimiento;
+    private javax.swing.JComboBox cboFormaPago;
+    private javax.swing.JComboBox cboTipoCliente;
+    private com.toedter.calendar.JDateChooser dcFechaFin;
+    private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -511,21 +705,95 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelAcciones;
     private javax.swing.JPanel jPanelDatos;
     private javax.swing.JPanel jPanelOpciones;
+    private javax.swing.JPanel jPanelTabla;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableCreditos;
+    private javax.swing.JLabel lblCuotas;
+    private javax.swing.JSpinner spTiempo;
     private javax.swing.JTextField txtAval;
     private javax.swing.JTextField txtCliente;
+    private javax.swing.JTextField txtClienteEmpresa;
     private javax.swing.JTextField txtColaborador;
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtMonto;
     private javax.swing.JTextField txtTasa;
-    private javax.swing.JTextField txtTiempo;
-    private javax.swing.JTextField txtTipoCliente;
     // End of variables declaration//GEN-END:variables
+
+    CreditoJpaController controladorCredito = new CreditoJpaController();
+    FormaPagoJpaController fpc = new FormaPagoJpaController();
+    
+    private void presentarDatos() {
+        listaCreditos = controladorCredito.buscarTodos();
+        listaFormaPago = fpc.buscarTodos();
+        listaCreditos = ObservableCollections.observableList(listaCreditos);
+        MTCredito model = new MTCredito(listaCreditos);
+               
+        jTableCreditos.setModel(model);
+        
+                
+        JComboBoxBinding bindCombo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, listaFormaPago, cboFormaPago);
+        
+
+        bindCombo.bind();
+        cboFormaPago.setRenderer(new DefaultListCellRenderer(){
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
+                if (value instanceof Formapago) {
+                    value = ((Formapago) value).getDescripcion();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+        });
+    }
+    
+     public void activarComponents() {
+        if (accion == Controlador.NUEVO || accion == Controlador.MODIFICAR) {
+            ClaseUtil.activarComponente(jPanelDatos, true);
+            ClaseUtil.activarComponente(jPanelOpciones, false);
+            ClaseUtil.activarComponente(jPanelAcciones, true);            
+        } else {
+            ClaseUtil.activarComponente(jPanelDatos, false);
+            ClaseUtil.activarComponente(jPanelOpciones, true);
+            ClaseUtil.activarComponente(jPanelAcciones, false);            
+        }
+    } 
+     
+    private boolean erroresFormulario(){
+        int errores = 0;
+        Date fechaInicio = dcFechaInicio.getDate();
+
+        String mensaje = "";
+        if (txtClienteEmpresa.getText().isEmpty()) {
+            errores++;
+            mensaje += ">Debe ingresar un cliente/empresa \n";
+        }
+        if(txtColaborador.getText().isEmpty()){
+            errores++;
+            mensaje += ">Debe ingresar un colaborador \n";
+        }
+        if(txtAval.getText().isEmpty()){
+            errores++;
+            mensaje += ">Debe ingresar un aval \n";
+        }
+        if(txtMonto.getText().isEmpty()){
+            errores++;
+            mensaje += ">Debe ingresar un monto \n";
+        }
+        if((int)spTiempo.getValue()==0){
+            errores++;
+            mensaje += ">Debe especificar un número de cuotas \n";
+        }
+        if(txtTasa.getText().isEmpty()){
+            errores++;
+            mensaje += ">Debe especificar una tasa \n";
+        }
+        if (errores > 0) {
+            JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        }
+        return errores != 0;
+    }
 }

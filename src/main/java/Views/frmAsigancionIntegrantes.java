@@ -493,7 +493,7 @@ public class frmAsigancionIntegrantes extends javax.swing.JDialog {
         ///---Filtro de Personas que Ya estan Asignadas     
         for (Detalleempresa listaPersonasDetalle2 : odetalleempresa) { 
             for (int i=0; i<listPersonas.size(); i++) {
-                if (listaPersonasDetalle2.getIdpersona().getDni().equals(listPersonas.get(i).getDni())) {
+                if (listaPersonasDetalle2.getIdPersona().getDni().equals(listPersonas.get(i).getDni())) {
                     listPersonas.remove(i);
                 }
             }
@@ -502,7 +502,7 @@ public class frmAsigancionIntegrantes extends javax.swing.JDialog {
         for (Persona listPersona : listPersonas) {
             Detalleempresa odetalle = new Detalleempresa();
             odetalle.setIdEmpresa(datosRecibidos);
-            odetalle.setIdpersona(listPersona);
+            odetalle.setIdPersona(listPersona);
             this.listaPersonasFiltradas.add(odetalle);
         }
                   
@@ -522,7 +522,7 @@ public class frmAsigancionIntegrantes extends javax.swing.JDialog {
             case "DetallesEliminados":
                 for (Detalleempresa listDetalleOrden1 : listaPersonasDetallexempresa) {
                     for (int i = 0; i < listaPersonasDetalleBackup.size(); i++) {
-                        if (Objects.equals(listaPersonasDetalleBackup.get(i).getIdpersona().getDni(), listDetalleOrden1.getIdpersona().getDni())) {
+                        if (Objects.equals(listaPersonasDetalleBackup.get(i).getIdPersona().getDni(), listDetalleOrden1.getIdPersona().getDni())) {
                             listaPersonasDetalleBackup.remove(i);                            
                         }
                     }

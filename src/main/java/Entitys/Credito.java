@@ -33,15 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "credito")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Credito.findAll", query = "SELECT c FROM Credito c"),
-    @NamedQuery(name = "Credito.findByIdCredito", query = "SELECT c FROM Credito c WHERE c.idCredito = :idCredito"),
-    @NamedQuery(name = "Credito.findByTipoCliente", query = "SELECT c FROM Credito c WHERE c.tipoCliente = :tipoCliente"),
-    @NamedQuery(name = "Credito.findByMonto", query = "SELECT c FROM Credito c WHERE c.monto = :monto"),
-    @NamedQuery(name = "Credito.findByTiempo", query = "SELECT c FROM Credito c WHERE c.tiempo = :tiempo"),
-    @NamedQuery(name = "Credito.findByTasa", query = "SELECT c FROM Credito c WHERE c.tasa = :tasa"),
-    @NamedQuery(name = "Credito.findByFechaInicio", query = "SELECT c FROM Credito c WHERE c.fechaInicio = :fechaInicio"),
-    @NamedQuery(name = "Credito.findByFechaFinal", query = "SELECT c FROM Credito c WHERE c.fechaFinal = :fechaFinal")})
+
 public class Credito implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -73,7 +65,7 @@ public class Credito implements Serializable {
     @JoinColumn(name = "id_empresa", referencedColumnName = "idEmpresa")
     @ManyToOne
     private Empresa idEmpresa;
-    @JoinColumn(name = "id_FormaPago", referencedColumnName = "idFormaPago")
+    @JoinColumn(name = "idFormaPago", referencedColumnName = "idFormaPago")
     @ManyToOne(optional = false)
     private Formapago idFormaPago;
     @JoinColumn(name = "id_persona", referencedColumnName = "dni")

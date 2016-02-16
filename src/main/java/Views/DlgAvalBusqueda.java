@@ -24,7 +24,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Gabriel
  */
-public class DlgPersonaBusqueda extends javax.swing.JDialog {
+public class DlgAvalBusqueda extends javax.swing.JDialog {
     
      List<Persona> listaPersonas;
      private final JInternalFrame padre;
@@ -33,7 +33,7 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
      * Creates new form DlgProveedorBusqueda
      * @param componente
      */
-    public DlgPersonaBusqueda(Component componente) {
+    public DlgAvalBusqueda(Component componente) {
         super(JOptionPane.getFrameForComponent(componente), true);
         initComponents();
         padre = (JInternalFrame) componente;
@@ -130,7 +130,7 @@ public class DlgPersonaBusqueda extends javax.swing.JDialog {
                 listaPersonas.remove(jTablePersonas.getSelectedRow());
                 this.dispose();
             }else if(this.padre instanceof frmMantCreditoPersonas){
-                ((frmMantCreditoPersonas) padre).persona = listaPersonas.get(jTablePersonas.getSelectedRow());
+                ((frmMantCreditoPersonas) padre).aval = listaPersonas.get(jTablePersonas.getSelectedRow());
                 listaPersonas.remove(jTablePersonas.getSelectedRow());
                 this.dispose();
             }else{
