@@ -289,6 +289,9 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 76;
         gridBagConstraints.gridy = 4;
         jPanelDatos.add(btnClienteEmpresa, gridBagConstraints);
+
+        spTiempo.setMinimumSize(new java.awt.Dimension(59, 20));
+        spTiempo.setPreferredSize(new java.awt.Dimension(49, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 24;
