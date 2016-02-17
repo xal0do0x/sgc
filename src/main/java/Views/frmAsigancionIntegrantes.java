@@ -440,9 +440,9 @@ public class frmAsigancionIntegrantes extends javax.swing.JDialog {
         this.calculoListaFiltrada(controladorDetalleEmpresa.buscarTodos());
         this.listaPersonasFiltradas = ObservableCollections.observableList(listaPersonasFiltradas);
         JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, listaPersonasFiltradas, jTablePersonaN);       
-        BeanProperty bNombres = BeanProperty.create("idpersona.nombres");
-        BeanProperty bApellidos = BeanProperty.create("idpersona.apellidos");
-        BeanProperty bNum_identificacion = BeanProperty.create("idpersona.dni");
+        BeanProperty bNombres = BeanProperty.create("idPersona.nombres");
+        BeanProperty bApellidos = BeanProperty.create("idPersona.apellidos");
+        BeanProperty bNum_identificacion = BeanProperty.create("idPersona.dni");
         binding.addColumnBinding(bNombres).setColumnName("NOMBRES").setEditable(false);
         binding.addColumnBinding(bApellidos).setColumnName("APELLIDOS").setEditable(false);
         binding.addColumnBinding(bNum_identificacion).setColumnName("DNI").setEditable(false);
@@ -459,9 +459,9 @@ public class frmAsigancionIntegrantes extends javax.swing.JDialog {
         }  
         this.listaPersonasDetallexempresa = ObservableCollections.observableList(listaPersonasDetallexempresa);
         JTableBinding binding2 = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ,listaPersonasDetallexempresa, jTableIntegrantes);        
-        BeanProperty bNombres2 = BeanProperty.create("idpersona.nombres");
-        BeanProperty bApellidos2 = BeanProperty.create("idpersona.apellidos");
-        BeanProperty bNum_identificacion2 = BeanProperty.create("idpersona.dni");
+        BeanProperty bNombres2 = BeanProperty.create("idPersona.nombres");
+        BeanProperty bApellidos2 = BeanProperty.create("idPersona.apellidos");
+        BeanProperty bNum_identificacion2 = BeanProperty.create("idPersona.dni");
         binding2.addColumnBinding(bNombres2).setColumnName("NOMBRES").setEditable(false);
         binding2.addColumnBinding(bApellidos2).setColumnName("APELLIDOS").setEditable(false);
         binding2.addColumnBinding(bNum_identificacion2).setColumnName("DNI").setEditable(false);
