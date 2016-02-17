@@ -36,10 +36,10 @@ public class Detalleempresa implements Serializable {
     @Basic(optional = false)
     @Column(name = "idDetalleEmpresa")
     private Integer idDetalleEmpresa;
-    @JoinColumn(name = "id_Empresa", referencedColumnName = "idEmpresa")
+    @JoinColumn(name = "idEmpresa", referencedColumnName = "idEmpresa")
     @ManyToOne(optional = false)
     private Empresa idEmpresa;
-    @JoinColumn(name = "id_persona", referencedColumnName = "dni")
+    @JoinColumn(name = "idPersona", referencedColumnName = "dni")
     @ManyToOne(optional = false)
     private Persona idPersona;
 
