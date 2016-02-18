@@ -5,6 +5,17 @@
  */
 package Views;
 
+import Controllers.CuotaJpaController;
+import Entitys.Credito;
+import Entitys.Cuota;
+import Models.MTCuota;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import org.jdesktop.observablecollections.ObservableCollections;
+
 /**
  *
  * @author Aldo
@@ -14,8 +25,20 @@ public class DlgCuotasDetalle extends javax.swing.JDialog {
     /**
      * Creates new form DlgCuotasDetalle
      */
-    public DlgCuotasDetalle(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    private Credito credito;
+    private List<Cuota> listaCuotas;
+        
+    public Credito getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Credito credito) {
+        this.credito = credito;
+        this.presentarDatos();
+    }
+    
+    public DlgCuotasDetalle(JInternalFrame parent, boolean modal) {
+        super(JOptionPane.getFrameForComponent(parent), modal);
         initComponents();
     }
 
@@ -27,18 +50,270 @@ public class DlgCuotasDetalle extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        pnlDetalle = new javax.swing.JPanel();
+        pnlDatosCreditoEmpleado = new javax.swing.JPanel();
+        lblPrestamista = new javax.swing.JLabel();
+        lblDireccion = new javax.swing.JLabel();
+        lblTelefono = new javax.swing.JLabel();
+        lblColaborador = new javax.swing.JLabel();
+        lblAval = new javax.swing.JLabel();
+        txtPrestamista = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
+        txtColaborador = new javax.swing.JTextField();
+        txtAval = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtFechaInicio = new javax.swing.JTextField();
+        txtFechaFin = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtMonto = new javax.swing.JTextField();
+        txtCuotas = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtTasa = new javax.swing.JTextField();
+        pnlDetalleCuotas = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblCuotas = new org.jdesktop.swingx.JXTable();
+        pnlBotones = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setBackground(new java.awt.Color(204, 204, 255));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("DETALLE CUOTAS - PRÉSTAMO");
+        jLabel1.setOpaque(true);
+        jPanel1.add(jLabel1, java.awt.BorderLayout.PAGE_START);
+
+        java.awt.GridBagLayout pnlDetalleLayout = new java.awt.GridBagLayout();
+        pnlDetalleLayout.columnWidths = new int[] {0};
+        pnlDetalleLayout.rowHeights = new int[] {0, 5, 0, 5, 0};
+        pnlDetalle.setLayout(pnlDetalleLayout);
+
+        pnlDatosCreditoEmpleado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de préstamo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+        java.awt.GridBagLayout pnlDatosCreditoEmpleadoLayout = new java.awt.GridBagLayout();
+        pnlDatosCreditoEmpleadoLayout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        pnlDatosCreditoEmpleadoLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        pnlDatosCreditoEmpleado.setLayout(pnlDatosCreditoEmpleadoLayout);
+
+        lblPrestamista.setText("Prestamista:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(lblPrestamista, gridBagConstraints);
+
+        lblDireccion.setText("Dirección:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(lblDireccion, gridBagConstraints);
+
+        lblTelefono.setText("Teléfono:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(lblTelefono, gridBagConstraints);
+
+        lblColaborador.setText("Colaborador:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(lblColaborador, gridBagConstraints);
+
+        lblAval.setText("Aval:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(lblAval, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlDatosCreditoEmpleado.add(txtPrestamista, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlDatosCreditoEmpleado.add(txtDireccion, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.05;
+        pnlDatosCreditoEmpleado.add(txtTelefono, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlDatosCreditoEmpleado.add(txtColaborador, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlDatosCreditoEmpleado.add(txtAval, gridBagConstraints);
+
+        jLabel2.setText("Fecha de Fin:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(jLabel2, gridBagConstraints);
+
+        jLabel3.setText("Fecha de Inicio:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(jLabel3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlDatosCreditoEmpleado.add(txtFechaInicio, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlDatosCreditoEmpleado.add(txtFechaFin, gridBagConstraints);
+
+        jLabel4.setText("Monto:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(jLabel4, gridBagConstraints);
+
+        jLabel5.setText("Cuotas:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(jLabel5, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlDatosCreditoEmpleado.add(txtMonto, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlDatosCreditoEmpleado.add(txtCuotas, gridBagConstraints);
+
+        jLabel6.setText("Tasa:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        pnlDatosCreditoEmpleado.add(jLabel6, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 16;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlDatosCreditoEmpleado.add(txtTasa, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
+        pnlDetalle.add(pnlDatosCreditoEmpleado, gridBagConstraints);
+
+        pnlDetalleCuotas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detalles Cuotas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+
+        tblCuotas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tblCuotas);
+
+        javax.swing.GroupLayout pnlDetalleCuotasLayout = new javax.swing.GroupLayout(pnlDetalleCuotas);
+        pnlDetalleCuotas.setLayout(pnlDetalleCuotasLayout);
+        pnlDetalleCuotasLayout.setHorizontalGroup(
+            pnlDetalleCuotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDetalleCuotasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlDetalleCuotasLayout.setVerticalGroup(
+            pnlDetalleCuotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDetalleCuotasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        pnlDetalle.add(pnlDetalleCuotas, gridBagConstraints);
+
+        jPanel1.add(pnlDetalle, java.awt.BorderLayout.CENTER);
+
+        btnGuardar.setText("Guardar");
+        pnlBotones.add(btnGuardar);
+
+        btnCancelar.setText("Cancelar");
+        pnlBotones.add(btnCancelar);
+
+        jPanel1.add(pnlBotones, java.awt.BorderLayout.PAGE_END);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 841, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -47,45 +322,66 @@ public class DlgCuotasDetalle extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgCuotasDetalle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgCuotasDetalle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgCuotasDetalle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgCuotasDetalle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAval;
+    private javax.swing.JLabel lblColaborador;
+    private javax.swing.JLabel lblDireccion;
+    private javax.swing.JLabel lblPrestamista;
+    private javax.swing.JLabel lblTelefono;
+    private javax.swing.JPanel pnlBotones;
+    private javax.swing.JPanel pnlDatosCreditoEmpleado;
+    private javax.swing.JPanel pnlDetalle;
+    private javax.swing.JPanel pnlDetalleCuotas;
+    private org.jdesktop.swingx.JXTable tblCuotas;
+    private javax.swing.JTextField txtAval;
+    private javax.swing.JTextField txtColaborador;
+    private javax.swing.JTextField txtCuotas;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtFechaFin;
+    private javax.swing.JTextField txtFechaInicio;
+    private javax.swing.JTextField txtMonto;
+    private javax.swing.JTextField txtPrestamista;
+    private javax.swing.JTextField txtTasa;
+    private javax.swing.JTextField txtTelefono;
+    // End of variables declaration//GEN-END:variables
+    
+    private CuotaJpaController cc = new CuotaJpaController();
+    private void presentarDatos() {
+        DateFormat dfFecha;
+        dfFecha = new SimpleDateFormat("dd.MM.yyyy");
+        //Ingresamos datos de credito
+        if(credito.getIdEmpresa()==null){
+            txtPrestamista.setText(credito.getIdPersona().getNombres()+" "+credito.getIdPersona().getApellidos()+" - "+credito.getIdPersona().getDni());
+        }else{
+            txtPrestamista.setText(credito.getIdEmpresa().getNombre()+" "+credito.getIdEmpresa().getRuc());
         }
-        //</editor-fold>
+        if(credito.getIdEmpresa()==null){
+            txtDireccion.setText(credito.getIdPersona().getDireccion());
+        }else{
+            txtDireccion.setText(credito.getIdEmpresa().getDireccion());
+        }
+        txtColaborador.setText(credito.getColaborador().getNombres()+" "+credito.getColaborador().getApellidos()+" - "+credito.getColaborador().getDni());
+        txtAval.setText(credito.getAval().getNombres()+" "+credito.getAval().getApellidos()+" - "+credito.getAval().getDni());
+        txtFechaInicio.setText(dfFecha.format(credito.getFechaInicio()));
+        txtFechaFin.setText(dfFecha.format(credito.getFechaFinal()));
+        txtMonto.setText("S/. "+credito.getMonto());
+        txtCuotas.setText(credito.getTiempo()+"");
+        txtTasa.setText(credito.getTasa()+" %");
+        listaCuotas = cc.buscarXCredito(credito);
+        listaCuotas = ObservableCollections.observableList(listaCuotas);
+        MTCuota model = new MTCuota(listaCuotas);             
+        tblCuotas.setModel(model);
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DlgCuotasDetalle dialog = new DlgCuotasDetalle(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 }

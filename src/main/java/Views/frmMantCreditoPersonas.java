@@ -290,7 +290,7 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 4;
         jPanelDatos.add(btnClienteEmpresa, gridBagConstraints);
 
-        spTiempo.setMinimumSize(new java.awt.Dimension(59, 20));
+        spTiempo.setMinimumSize(new java.awt.Dimension(49, 20));
         spTiempo.setPreferredSize(new java.awt.Dimension(49, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -648,7 +648,12 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int fila = jTableCreditos.getSelectedRow();
         if(fila!=-1){
+            Credito prueba = listaCreditos.get(fila);
+            System.out.println("Prueba de credito: "+prueba.getMonto());
+            DlgCuotasDetalle dlgCuotas = new DlgCuotasDetalle(this, true);
+            dlgCuotas.setCredito(listaCreditos.get(fila));
             
+            dlgCuotas.setVisible(true);
         }
     }//GEN-LAST:event_btnDetallesCuotasActionPerformed
 

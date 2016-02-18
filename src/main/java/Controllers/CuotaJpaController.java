@@ -6,7 +6,11 @@
 
 package Controllers;
 
+import Entitys.Credito;
 import Entitys.Cuota;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,6 +20,13 @@ public class CuotaJpaController extends Controlador<Cuota> {
 
     public CuotaJpaController() {
          super(Cuota.class);
+    }
+    
+    public List<Cuota> buscarXCredito(Credito credito){
+        String jpql = "SELECT c FROM Cuota c WHERE c.idCredito = :credito ORDER BY c.fechaVencimiento";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("credito", credito);
+        return this.getDao().buscar(jpql, mapa);
     }
     
 }
