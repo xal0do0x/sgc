@@ -428,6 +428,11 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
 
             }
         ));
+        jTableCreditos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableCreditosMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableCreditos);
 
         btnDetallesCuotas.setText("Ver Detalle Cuotas");
@@ -510,21 +515,17 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-//        int fila = jTablePersonaN.getSelectedRow();
-//        if (fila != -1) {
-//            this.accion = Controlador.MODIFICAR;
-//            this.activarComponents();
-//            controladorPersona.setSeleccionado(this.listaPersonas.get(fila));
-//
-//            jComboBoxIdentificacion.setSelectedItem(controladorPersona.getSeleccionado().getTipoIdentificacion());
-//            txtidentificacion.setText(controladorPersona.getSeleccionado().getNumIdentificacion());
-//            txtColaborador.setText(controladorPersona.getSeleccionado().getNombre());
-//            txtAval.setText(controladorPersona.getSeleccionado().getTelefonoFijo());
-//            txtMonto.setText(controladorPersona.getSeleccionado().getCelular1());
-//            txtTasa.setText(controladorPersona.getSeleccionado().getCelular2());
-//            txtTiempo.setText(controladorPersona.getSeleccionado().getDireccion());
-//            jComboBoxTipo.setSelectedIndex(getTipoCliente(controladorPersona.getSeleccionado().getTipoPersona().toString()));
-//        }
+        int fila = jTableCreditos.getSelectedRow();
+        if (fila != -1) {
+            this.accion = Controlador.MODIFICAR;
+            this.activarComponents();
+            controladorCredito.setSeleccionado(this.listaCreditos.get(fila));
+            persona = controladorCredito.getSeleccionado().getIdPersona();
+            empresa = controladorCredito.getSeleccionado().getIdEmpresa();
+            colaborador = controladorCredito.getSeleccionado().getColaborador();
+            aval = controladorCredito.getSeleccionado().getAval();
+            cboTipoCliente.requestFocusInWindow();
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -575,28 +576,36 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
             Date fechaInicial = dcFechaInicio.getDate();
             Calendar c = Calendar.getInstance();
             
-            for(int i=0;i<seleccionado.getTiempo();i++){
-                Cuota cuota = new Cuota();
-                cuota.setMonto(montoCuota);
-                cuota.setFechaVencimiento(fechaInicial);
-                cuota.setIdCredito(seleccionado);
-                listaCuotas.add(cuota);
-                if((seleccionado.getTiempo()-1)!=i){
-                    if(tiempoEntreFechas==0){
-                        c.setTime(fechaInicial);
-                        c.add(Calendar.MONTH,1);
-                        fechaInicial = c.getTime();
-                    }else if(tiempoEntreFechas==1){
-                        c.setTime(fechaInicial);
-                        c.add(Calendar.WEEK_OF_YEAR,2);
-                        fechaInicial = c.getTime();
-                    }else if(tiempoEntreFechas==2){
-                        c.setTime(fechaInicial);
-                        c.add(Calendar.WEEK_OF_YEAR,1);
-                        fechaInicial = c.getTime();
-                    }
-                }   
+            if(this.accion==1){
+                for(int i=0;i<seleccionado.getTiempo();i++){
+                    Cuota cuota = new Cuota();
+                    cuota.setMonto(montoCuota);
+                    cuota.setFechaVencimiento(fechaInicial);
+                    cuota.setFechaPago(fechaInicial);
+                    cuota.setIdCredito(seleccionado);
+                    cuota.setMora(0.00);
+                    cuota.setEstado("PENDIENTE");
+                    listaCuotas.add(cuota);
+                    if((seleccionado.getTiempo()-1)!=i){
+                        if(tiempoEntreFechas==0){
+                            c.setTime(fechaInicial);
+                            c.add(Calendar.MONTH,1);
+                            fechaInicial = c.getTime();
+                        }else if(tiempoEntreFechas==1){
+                            c.setTime(fechaInicial);
+                            c.add(Calendar.WEEK_OF_YEAR,2);
+                            fechaInicial = c.getTime();
+                        }else if(tiempoEntreFechas==2){
+                            c.setTime(fechaInicial);
+                            c.add(Calendar.WEEK_OF_YEAR,1);
+                            fechaInicial = c.getTime();
+                        }
+                    }   
+                }
+            }else if(this.accion == 2){
+                
             }
+            
             System.out.println("Fechainicio: "+dcFechaInicio.getDate().toString()+" Fecha Fin: "+fechaInicial.toString());
             System.out.println("Monto a pagar mensual: "+montoCuota);
             
@@ -685,6 +694,15 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
         dlgPersona.setVisible(true);
         txtAval.setText(aval.getNombres()+" "+aval.getApellidos());
     }//GEN-LAST:event_btnAvalActionPerformed
+
+    private void jTableCreditosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableCreditosMouseReleased
+        // TODO add your handling code here:
+        int fila = jTableCreditos.getSelectedRow();
+        if (fila != -1) {
+            Credito credito = listaCreditos.get(fila);
+            mostrar(credito);
+        }
+    }//GEN-LAST:event_jTableCreditosMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -803,5 +821,21 @@ public class frmMantCreditoPersonas extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
         }
         return errores != 0;
+    }
+    private void mostrar(Credito credito) {
+        cboTipoCliente.setSelectedItem(credito.getTipoCliente());
+        if(credito.getIdEmpresa()==null){
+            txtClienteEmpresa.setText(credito.getIdPersona().getApellidos()+" "+credito.getIdPersona().getNombres());
+        }else{
+            txtClienteEmpresa.setText(credito.getIdEmpresa().getNombre());
+        }
+        txtColaborador.setText(credito.getColaborador().getApellidos()+" "+credito.getColaborador().getNombres());
+        txtAval.setText(credito.getAval().getApellidos()+" "+credito.getAval().getNombres());
+        txtMonto.setText(credito.getMonto()+"");
+        cboFormaPago.setSelectedItem(credito.getIdFormaPago());
+        spTiempo.setValue(credito.getCuotaList().size());
+        txtTasa.setText(credito.getTasa()+"");
+        dcFechaInicio.setDate(credito.getFechaInicio());
+        dcFechaFin.setDate(credito.getFechaFinal());
     }
 }

@@ -5,15 +5,25 @@
  */
 package Views;
 
+import Controllers.Controlador;
+import Controllers.CreditoJpaController;
 import Controllers.CuotaJpaController;
 import Entitys.Credito;
 import Entitys.Cuota;
 import Models.MTCuota;
+import Models.MTDetalleCuota;
+import Views.Settings.ClaseUtil;
+import com.personal.utiles.FormularioUtil;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableColumnModel;
 import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
@@ -27,6 +37,7 @@ public class DlgCuotasDetalle extends javax.swing.JDialog {
      */
     private Credito credito;
     private List<Cuota> listaCuotas;
+    private int accion;
         
     public Credito getCredito() {
         return credito;
@@ -292,9 +303,19 @@ public class DlgCuotasDetalle extends javax.swing.JDialog {
         jPanel1.add(pnlDetalle, java.awt.BorderLayout.CENTER);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         pnlBotones.add(btnGuardar);
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         pnlBotones.add(btnCancelar);
 
         jPanel1.add(pnlBotones, java.awt.BorderLayout.PAGE_END);
@@ -318,6 +339,40 @@ public class DlgCuotasDetalle extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        this.accion = 2;
+        if(erroresFormulario()){
+            return;
+        }
+        if(FormularioUtil.dialogoConfirmar(this, accion)){
+            crc.setSeleccionado(credito);
+            Credito creditoUsado = crc.getSeleccionado();
+            creditoUsado.setCuotaList(listaCuotas);
+            if (this.accion == Controlador.NUEVO) {
+                if (ClaseUtil.dialogoConfirmar(this, this.accion)) {
+                    crc.accion(this.accion);
+                    ClaseUtil.mensajeExito(this, accion);
+                }
+            }else if(this.accion == Controlador.MODIFICAR){
+                if (ClaseUtil.dialogoConfirmar(this, this.accion)) {
+                    crc.accion(this.accion);
+                    ClaseUtil.mensajeExito(this, accion);
+                }
+            }
+            
+            this.presentarDatos();
+            this.accion = 0;
+            this.dispose();
+            
+        }  
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -356,6 +411,7 @@ public class DlgCuotasDetalle extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     
     private CuotaJpaController cc = new CuotaJpaController();
+    private CreditoJpaController crc = new CreditoJpaController();
     private void presentarDatos() {
         DateFormat dfFecha;
         dfFecha = new SimpleDateFormat("dd.MM.yyyy");
@@ -379,9 +435,35 @@ public class DlgCuotasDetalle extends javax.swing.JDialog {
         txtTasa.setText(credito.getTasa()+" %");
         listaCuotas = cc.buscarXCredito(credito);
         listaCuotas = ObservableCollections.observableList(listaCuotas);
-        MTCuota model = new MTCuota(listaCuotas);             
+        MTDetalleCuota model = new MTDetalleCuota(listaCuotas);
+        //MTCuota model = new MTCuota(listaCuotas);             
         tblCuotas.setModel(model);
-
+        
+        //ComboBox
+        String[] estados = {"PENDIENTE","PAGADA","VENCIDA"};
+        DefaultComboBoxModel contenido = new DefaultComboBoxModel(estados);
+        JComboBox comboEstado = new JComboBox(contenido);
+        DefaultCellEditor editor = new DefaultCellEditor(comboEstado);    
+        
+        TableColumnModel tcm = tblCuotas.getColumnModel();
+        tcm.getColumn(5).setCellEditor(editor);
     }
 
+    private boolean erroresFormulario(){
+        int errores = 0;
+        String mensaje = "";
+        
+        for(int i=0; i < tblCuotas.getRowCount();i++){
+            Cuota cuota = listaCuotas.get(i);
+            if(cuota.getFechaVencimiento().compareTo(cuota.getFechaPago()) > 0){
+                errores++;
+                mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
+            }
+        }
+                
+        if (errores > 0) {
+            JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        }
+        return errores != 0;
+    }
 }
